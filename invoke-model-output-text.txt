@@ -1,0 +1,1 @@
+{"inputTextTokenCount":7,"results":[{"tokenCount":28,"outputText":"\nThe capital of Australia is Canberra. The city is home to Parliament House, the Australian War Memorial, and the Australian National University.","completionReason":"FINISH"}]}
