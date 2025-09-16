@@ -12,5 +12,11 @@ dependencies = [
     "langchain-aws>=0.2.28",
     "langchain-community>=0.3.27",
     "langgraph>=0.6.6",
+    "langgraph-cli[inmem]>=0.4.1",
     "tiktoken>=0.11.0",
+]
+
+[tool.uv.workspace]
+members = [
+    "langgraph",
 ]
