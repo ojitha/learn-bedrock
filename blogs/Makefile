@@ -1,9 +1,4 @@
-blogsSources := 2025-07-25-Scala-basics \
-	2025-07-25-Scala-Collections \
-    2025-10-24-Scala2Closures \
-    2025-10-26-Scala2-Functors \
-    2025-10-27-Scala-2-Collections \
-    2025-10-31-Functional-Programming-Abstractions-in-Scala
+blogsSources := 2025-08-29-BedrockLangGraph
 
 source += $(blogsSources)
 
