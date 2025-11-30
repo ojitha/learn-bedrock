@@ -1,0 +1,40 @@
+blogsSources := 2025-07-25-Scala-basics \
+	2025-07-25-Scala-Collections \
+    2025-10-24-Scala2Closures \
+    2025-10-26-Scala2-Functors \
+    2025-10-27-Scala-2-Collections \
+    2025-10-31-Functional-Programming-Abstractions-in-Scala
+
+source += $(blogsSources)
+
+files := $(foreach wrd,$(source),$(wrd).md)
+all: $(files)
+
+# Function to create ipynb --> md
+define make-markdown
+$1.md : $1.ipynb
+	@echo "-------------------------"
+	@echo "Converting $$< -> $$@"
+	@echo "-------------------------"
+	cd .. && uv run jupyter nbconvert --HTMLExporter.sanitize_html=true blogs/$$< --to markdown \
+		--template-file=blogs/custom_markdown.tpl \
+		--TagRemovePreprocessor.remove_input_tags="['remove_input','remove_output']" \
+		--NbConvertApp.output_files_dir=./blogs/assets/images/$1 \
+		--ExtractOutputPreprocessor.output_filename_template='fig_{index}{extension}'
+
+	sed -i '' -E 's#(!\[[^]]*\]\().*/blog/assets/images#\1https://raw.githubusercontent.com/ojitha/blog/master/assets/images#g' $$@	
+	sed -i '' -E 's/\x1B\[[0-9;]*[mK]//g' $$@
+	sed -i '' -E 's/\(\.\/assets/\(\/assets/g' $$@
+	@echo "Processing mermaid diagrams..."
+	awk '/^{% raw %}$$$$/ {in_raw=1} in_raw==1 {gsub(/</, "\\&lt;"); gsub(/>/, "\\&gt;")} /^{% endraw %}$$$$/ {in_raw=0} {print}' $$@ > $$@.tmp && mv $$@.tmp $$@
+endef
+
+# Generate the rules for each source file
+$(foreach element,$(blogsSources),$(eval $(call make-markdown,$(element))))
+
+cleanmarkdown = $(shell rm $1.md)	
+
+# Clean target
+clean:
+	@echo "cleaning ..."
+	$(foreach element,$(blogsSources),$(eval $(call cleanmarkdown,$(element))))
