@@ -7,7 +7,9 @@ else
 endif
 
 blogsSources := 2025-08-29-BedrockLangGraph \
-	2026-09-13-BedrocClaude_1
+	2026-09-13-BedrocClaude_1 \
+	2026-09-16-BedrockClaude_2
+
 source += $(blogsSources)
 
 files := $(foreach wrd,$(source),$(wrd).md)
